@@ -52,4 +52,17 @@ public class ComponentRestController {
     }
 
 
+
+    @GetMapping("/all_components")
+    public List<String> returnAllComponents (){
+
+        List<Component> components = (List<Component>) repo.findAll();
+
+        List<String> names = new ArrayList<>();
+        for (Component component : components){
+            names.add(component.getName());
+        }
+        return names;
+    }
+
 }
