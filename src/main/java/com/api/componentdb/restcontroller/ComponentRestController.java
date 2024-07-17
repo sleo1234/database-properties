@@ -2,18 +2,18 @@ package com.api.componentdb.restcontroller;
 
 
 import com.api.componentdb.component.Component;
+import com.api.componentdb.entity.ComponentDTO;
 import com.api.componentdb.entity.ComponentResponseBody;
 import com.api.componentdb.repository.ComponentRepository;
 import com.api.componentdb.service.ComponentService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.swing.table.TableCellEditor;
 import java.util.ArrayList;
@@ -25,6 +25,12 @@ public class ComponentRestController {
 
    @Autowired private ComponentRepository repo;
     @Autowired private ComponentService componentService;
+
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
 
 
@@ -64,5 +70,22 @@ public class ComponentRestController {
         }
         return names;
     }
+
+    @PostMapping("/add_component")
+    public ResponseEntity<Component> addComponent (@RequestBody ComponentDTO componentDto){
+        Component component = convertToEntity(componentDto);
+
+        Component newComponent = repo.save(component);
+        return new ResponseEntity<>(newComponent,HttpStatus.CREATED);
+    }
+
+
+
+    public Component convertToEntity(ComponentDTO componentDto) {
+        ModelMapper modelMapper = new ModelMapper();
+        Component component = modelMapper.map(componentDto, Component.class);
+        return component;
+    }
+
 
 }

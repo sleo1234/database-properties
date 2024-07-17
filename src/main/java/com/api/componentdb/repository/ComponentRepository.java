@@ -7,4 +7,7 @@ public interface ComponentRepository extends CrudRepository<Component,Integer> {
 
 
     public Component findByName(String name);
+
+    public Component save(Component component);
+
 }
