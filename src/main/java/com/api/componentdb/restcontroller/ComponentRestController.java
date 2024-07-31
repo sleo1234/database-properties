@@ -72,8 +72,8 @@ public class ComponentRestController {
     }
 
     @PostMapping("/add_component")
-    public ResponseEntity<Component> addComponent (@RequestBody ComponentDTO componentDto){
-        Component component = convertToEntity(componentDto);
+    public ResponseEntity<Component> addComponent (@RequestBody Component component){
+
 
         Component newComponent = repo.save(component);
         return new ResponseEntity<>(newComponent,HttpStatus.CREATED);
