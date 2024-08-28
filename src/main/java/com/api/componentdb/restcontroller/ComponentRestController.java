@@ -16,8 +16,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.table.TableCellEditor;
+import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api")
@@ -87,5 +90,34 @@ public class ComponentRestController {
         return component;
     }
 
+
+
+    @PostMapping("/validate_componentlist")
+
+    public String checkList(@RequestBody ValidateInput input){
+
+        String message="Stream OK.";
+
+          HashMap<String, Double> userInput = input.getUserInput();
+        Set<String> dbList = input.getDbList();
+         ArrayList<String> invalidComponents = new ArrayList<>();
+          Double checkSum=0.0;
+
+        for (String key : userInput.keySet()){
+              checkSum = checkSum+userInput.get(key);
+            if (!dbList.contains(key)){
+                invalidComponents.add(key);
+            }
+             if (invalidComponents.size()>0) {
+                message = "Stream not OK. Following components are not present in the database: " + Arrays.toString(invalidComponents.toArray());
+             }
+            if (checkSum < 0.999 && checkSum >= 1.000001){
+                message = "Stream not OK. Sum of mole fractions is not equal to 1.";
+            }
+
+        }
+
+        return message;
+    }
 
 }
