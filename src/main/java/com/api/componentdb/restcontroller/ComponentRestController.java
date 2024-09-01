@@ -82,7 +82,12 @@ public class ComponentRestController {
         return new ResponseEntity<>(newComponent,HttpStatus.CREATED);
     }
 
+     @PostMapping("/add_component_list")
 
+     public ResponseEntity<List<Component>> addComponentList (@RequestBody List<Component> components){
+         List<Component> newComponents = repo.saveAll(components);
+         return new ResponseEntity<>(newComponents,HttpStatus.CREATED);
+     }
 
     public Component convertToEntity(ComponentDTO componentDto) {
         ModelMapper modelMapper = new ModelMapper();
@@ -92,32 +97,6 @@ public class ComponentRestController {
 
 
 
-    @PostMapping("/validate_componentlist")
 
-    public String checkList(@RequestBody ValidateInput input){
-
-        String message="Stream OK.";
-
-          HashMap<String, Double> userInput = input.getUserInput();
-        Set<String> dbList = input.getDbList();
-         ArrayList<String> invalidComponents = new ArrayList<>();
-          Double checkSum=0.0;
-
-        for (String key : userInput.keySet()){
-              checkSum = checkSum+userInput.get(key);
-            if (!dbList.contains(key)){
-                invalidComponents.add(key);
-            }
-             if (invalidComponents.size()>0) {
-                message = "Stream not OK. Following components are not present in the database: " + Arrays.toString(invalidComponents.toArray());
-             }
-            if (checkSum < 0.999 && checkSum >= 1.000001){
-                message = "Stream not OK. Sum of mole fractions is not equal to 1.";
-            }
-
-        }
-
-        return message;
-    }
 
 }

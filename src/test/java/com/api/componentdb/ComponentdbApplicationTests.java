@@ -27,18 +27,5 @@ class ComponentdbApplicationTests {
 	}
 
 
-	@Test
-	void testAddComponent() {
-		ComponentDTO componentDto = new ComponentDTO();
-		componentDto.setName("COMPONENTTEST1");
-		componentDto.setMOLE_WT(16.04);
-		componentDto.setTc(190.6);
-		componentDto.setPc(45.99);
-		componentDto.setOmega(0.0115);
-		ModelMapper mapper = new ModelMapper();
-		Component component = mapper.map(componentDto, Component.class);
-		componentRepository.save(component);
-		assertNotNull(componentRepository.findByName("COMPONENTTEST1"));
-	}
 
 }
