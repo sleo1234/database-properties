@@ -82,12 +82,7 @@ public class ComponentRestController {
         return new ResponseEntity<>(newComponent,HttpStatus.CREATED);
     }
 
-     @PostMapping("/add_component_list")
 
-     public ResponseEntity<List<Component>> addComponentList (@RequestBody List<Component> components){
-         List<Component> newComponents = repo.saveAll(components);
-         return new ResponseEntity<>(newComponents,HttpStatus.CREATED);
-     }
 
     public Component convertToEntity(ComponentDTO componentDto) {
         ModelMapper modelMapper = new ModelMapper();
