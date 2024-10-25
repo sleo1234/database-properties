@@ -6,23 +6,24 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 @SpringBootApplication
 
 public class ComponentdbApplication {
 
-	private static final ExecutorService threadpool
-			= Executors.newFixedThreadPool(3);
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 
 
-		//Future future = threadpool.submit(checkMysqlService());
-		checkMysqlService();
-		SpringApplication.run(ComponentdbApplication.class, args);
+	       checkMysqlService();
+			SpringApplication.run(ComponentdbApplication.class, args);
+
+		//SpringApplication.run(ComponentdbApplication.class, args);
+		//checkMysqlService();
+		//SpringApplication.run(ComponentdbApplication.class, args);
 
    //https://javarevisited.blogspot.com/2015/01/how-to-use-future-and-futuretask-in-Java.html#axzz8oO1QAqTn
 
@@ -47,6 +48,7 @@ public class ComponentdbApplication {
 
 			System.out.println("Mysql is running");
 		}
+
 
 	}
 
